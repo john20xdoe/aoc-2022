@@ -2258,16 +2258,21 @@ const input = `6471
 6030
 1807`;
 
-const part1 = (input: string) => {
-  const parsed = select(
-    input.split('\n\n'),
-    (line) => line.split('\n').map(Number),
-    () => true
-  );
-  const elves: number[][] = parsed;
-  const calories = select(elves, sum, isArray);
-  const heaviest = max(calories);
-  return heaviest;
-};
+const parsed = select(
+  input.split('\n\n'),
+  (line) => line.split('\n').map(Number),
+  () => true
+);
+const elves: number[][] = parsed;
+const calories = select(elves, sum, isArray);
+const heaviest = max(calories) || 0;
 
-console.log('Part 1: ', part1(input));
+console.log('Part 1: ', { heaviest });
+
+const heaviers = calories.filter((c) => c < heaviest);
+const heavier = max(heaviers) || 0;
+const heavies = heaviers.filter((c) => c < heavier);
+const heavy = max(heavies) || 0;
+
+// console.log('Top 3: ', { heaviest, heavier, heavy });
+console.log('Part 2: ', sum([heaviest, heavier, heavy]));
